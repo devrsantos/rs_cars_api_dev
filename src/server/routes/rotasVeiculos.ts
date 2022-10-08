@@ -1,6 +1,6 @@
 import e from "express";
-import {conexao} from "../dataBase/conexaoDB.js";
-import consultas from "../dataBase/scriptQuery.js";
+import {conexao} from "../dataBase/conexaoDB";
+import consultas from "../dataBase/scriptQuery";
 
 const router = e.Router();
 

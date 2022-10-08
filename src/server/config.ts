@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 
-import {router} from "./routes/rotasVeiculos.js";
+import {router} from "./routes/rotasVeiculos";
 
 const app = express();
 
@@ -16,4 +16,4 @@ app.use((request, response, next) => {
 
 app.use(router);
 
-export default app;
+export {app};

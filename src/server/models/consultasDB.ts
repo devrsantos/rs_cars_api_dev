@@ -84,6 +84,7 @@ class Crud {
             response.status(400).json({ Erro: "Verificar o Paramentro Informado" });
         }
     }
+    
 }
 
 export {Crud}

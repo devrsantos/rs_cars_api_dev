@@ -6,8 +6,6 @@ const consultas = {
         return `SELECT * FROM rs_car.veiculos WHERE modelo_veiculo = "${modelo_veiculo}"`;
     },
     cadastrar: (scriptQuery: string| undefined) => {
-        console.log(scriptQuery);
-        
         return `INSERT INTO veiculos (
                     modelo_veiculo, 
                     descricao_veiculo,
@@ -24,6 +22,9 @@ const consultas = {
         VALUES (
             ${scriptQuery}
         )`;
+    },
+    alterar: (scriptQuery: string| undefined, modelo_veiculo: string) =>  {
+        return `UPDATE rs_car.veiculos SET ${scriptQuery} WHERE modelo_veiculo = "${modelo_veiculo}"`
     },
     deletar: (modelo_veiculo: string) => {
         return `DELETE FROM rs_car.veiculos WHERE modelo_veiculo = "${modelo_veiculo}"`;

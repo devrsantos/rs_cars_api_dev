@@ -7,8 +7,6 @@ let queryString;
 
 class Crud {
     listar_todos = async(request: Request, response: Response) => {
-        
-        console.log({Messegem: "Conexão com Banco de Dados estabelecida..."});
         queryString = await consultas.geral();
     
         conexao.query(queryString, (erroSQL, returnSQL) => {
@@ -38,7 +36,7 @@ class Crud {
 
     cadastrar = async (request: Request, response: Response) => {
         const validacaoBody = new ValidacaoBody()
-        const scriptQuery: string|undefined = validacaoBody.validacao(request);
+        const scriptQuery: string|undefined = validacaoBody.validacao_cadastro(request);
         if (typeof(scriptQuery) !== undefined) {
             queryString = await consultas.cadastrar(scriptQuery);
         
@@ -54,7 +52,22 @@ class Crud {
         }
     }
 
-    alterar = async (request: Request, response: Response) => {}
+    alterar = async (request: Request, response: Response) => {
+        const validacaoBody = new ValidacaoBody()
+        const scriptQuery: string|undefined = validacaoBody.validacao_update(request)
+        if (typeof(scriptQuery)!== undefined) {
+            queryString = await consultas.alterar(scriptQuery, request.body.modelo_veiculo);
+            conexao.query(queryString, (erroSQL, returnSQL) => {
+                if (erroSQL !== null) {
+                    response.status(404).json({ Erro: erroSQL.sqlMessage });
+                } 
+                response.status(204).json(returnSQL);
+            });
+        }
+        else {
+            response.status(400).json({ Erro: "Verificar o Paramentro Informado" });
+        }
+    }
 
     deletar = async (request: Request, response: Response) => {
         const modeloVeiculo =  request.body.modelo_veiculo;
@@ -65,7 +78,7 @@ class Crud {
                 if (erroSQL !== null) {
                     response.status(404).json({ Erro: erroSQL.sqlMessage });
                 }
-                response.status(200).json(returnSQL);
+                response.status(204).json(returnSQL);
             });
         } else {
             response.status(400).json({ Erro: "Verificar o Paramentro Informado" });

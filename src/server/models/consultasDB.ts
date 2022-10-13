@@ -18,10 +18,12 @@ class Crud {
     }
 
     listar_individual = async (request: Request, response: Response) => {
-        const modeloVeiculo =  request.body.modelo_veiculo;
+        const objeto_key = Object.keys(request.body).toString();
+
+        let objeto_value = request.body[objeto_key];
         
-        if (modeloVeiculo !== null && typeof(modeloVeiculo) === "string") {
-            queryString = await consultas.individual(modeloVeiculo);
+        if (objeto_value !== null && typeof(objeto_value) === "string") {
+            queryString = await consultas.individual(objeto_key, objeto_value);
         
             conexao.query(queryString, (erroSQL, returnSQL) => {
                 if (erroSQL !== null) {
@@ -70,9 +72,12 @@ class Crud {
     }
 
     deletar = async (request: Request, response: Response) => {
-        const modeloVeiculo =  request.body.modelo_veiculo;
-        if (modeloVeiculo !== null && typeof(modeloVeiculo) === "string") {
-            queryString = await consultas.deletar(modeloVeiculo);
+        const objeto_key = Object.keys(request.body).toString();
+
+        let objeto_value = request.body[objeto_key];
+
+        if (objeto_value !== null && typeof(objeto_value) === "string") {
+            queryString = await consultas.deletar(objeto_key, objeto_value);
 
             conexao.query(queryString, (erroSQL, returnSQL) => {
                 if (erroSQL !== null) {
